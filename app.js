@@ -36,10 +36,7 @@ main()
   });
 
 async function main() {
-  await mongoose.connect(dbURL, {
-    tls: true,
-    tlsAllowInvalidCertificates: true,
-  });
+  await mongoose.connect(dbURL);
 }
 
 
@@ -107,6 +104,11 @@ app.use((req, res, next) =>{
   res.locals.currUser = req.user;
   next();
 });
+
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
+
 
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
