@@ -105,20 +105,36 @@ app.use((req, res, next) =>{
   next();
 });
 
-app.get("/", (req, res) => {
-  res.redirect("/listings");
-});
+// app.get("/", (req, res) => {
+//   res.redirect("/listings");
+// });
 
+
+// app.use("/listings", listingsRouter);
+// app.use("/listings/:id/reviews", reviewsRouter);
+// app.use("/", userRouter);
+
+
+
+// app.all("*", (req, res, next) => {
+//   next(new ExpressError(404, "page not found!"));
+// });
+
+
+app.get("/", (req, res) => {
+    console.log("DIAGNOSTIC: HOMEPAGE ROUTE HIT");
+    res.redirect("/listings");
+});
 
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);
 
-
-
 app.all("*", (req, res, next) => {
-  next(new ExpressError(404, "page not found!"));
+    console.log("DIAGNOSTIC: 404 ROUTE HIT:", req.method, req.originalUrl);
+    next(new ExpressError(404, "page not found!"));
 });
+
 
 app.use((err, req, res, next) => {
   let { statusCode = 500, message = "Something went wrong!" } = err;
